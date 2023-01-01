@@ -1,16 +1,11 @@
 import Database from '../models/database';
+import Collection from './Collection';
 
 class InMemoryDB implements Database {
-    private data: Record<string, any> = {};
+    private collections: Record<string, Collection<any>> = {};
     private static __instance: InstanceType<typeof InMemoryDB>;
 
     constructor() {
-        process.on('message', data => {
-            if (typeof data === 'string') {
-                this.data = JSON.parse(data);
-            }
-        });
-
         if (InMemoryDB.__instance) {
             return InMemoryDB.__instance;
         }
@@ -19,19 +14,25 @@ class InMemoryDB implements Database {
     }
 
     initialize(data: Record<string, any>) {
-        this.data = data;
+        for (const key in data) {
+            data[key] = new Collection(data[key]);
+        }
+
+        this.collections = data;
+
+        process.on('message', data => {
+            if (typeof data === 'string') {
+                const parsedData = JSON.parse(data);
+
+                for (const key in parsedData) {
+                    this.collections[key].data = parsedData[key];
+                }
+            }
+        });
     }
 
     getCollection(name: string) {
-        return this.data[name];
-    }
-
-    updateCollection<T>(name: string, data: T[]) {
-        this.data[name] = data;
-
-        if (process.send) {
-            process.send(JSON.stringify(this.data));
-        }
+        return this.collections[name];
     }
 }
 

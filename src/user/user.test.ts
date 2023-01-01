@@ -1,10 +1,10 @@
 import request from 'supertest';
-import createAPIServer from "../createAPIServer";
+import createAPIServer from '../createAPIServer';
 
 const app = createAPIServer();
 
 describe('GET /api/users', () => {
-    it('responds with json', (done) => {
+    it('responds with json', done => {
         request(app)
             .get('/api/users')
             .set('Accept', 'application/json')
@@ -14,30 +14,34 @@ describe('GET /api/users', () => {
 });
 
 describe('POST /api/user', () => {
-    it('Success create new user', (done) => {
+    it('Success create new user', done => {
         request(app)
             .post('/api/users')
             .send({
                 username: 'Alex',
                 age: 23,
-                hobbies: ['programming']
+                hobbies: ['programming'],
             })
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(201, 'true', done)
+            .expect(201, 'true', done);
     });
 
-    it('400 with error message if required fields is missing', (done) => {
+    it('400 with error message if required fields is missing', done => {
         request(app)
             .post('/api/users')
             .send({
-                hobbies: ['programming']
+                hobbies: ['programming'],
             })
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(400, {
-                message: 'Required fields (username, age) must be provided'
-            }, done);
+            .expect(
+                400,
+                {
+                    message: 'Required fields (username, age) must be provided',
+                },
+                done
+            );
     });
 });
 

@@ -1,6 +1,7 @@
+import Collection from '../db/Collection';
+
 interface Database {
-    getCollection<T>(name: string): T[]
-    updateCollection<T>(name: string, data: T[]): void
+    getCollection<T extends { id: string }>(name: string): Collection<T>;
 }
 
 export default Database;

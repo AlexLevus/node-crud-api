@@ -1,4 +1,4 @@
 export default {
-    "verbose": true,
-    "preset": "ts-jest",
+    verbose: true,
+    preset: 'ts-jest',
 };

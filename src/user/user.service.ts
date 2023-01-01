@@ -1,12 +1,12 @@
-import UserRepository from "./user.repository";
-import User from "./user.entity";
-import InMemoryDB from "../shared/db/InMemoryDB";
+import UserRepository from './user.repository';
+import User from './user.entity';
+import InMemoryDB from '../shared/db/InMemoryDB';
 
 class UserService {
     private userRepository: UserRepository;
 
     constructor() {
-        this.userRepository = new UserRepository(new InMemoryDB(), "users");
+        this.userRepository = new UserRepository(new InMemoryDB(), 'users');
     }
 
     getUsers() {
