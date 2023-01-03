@@ -1,7 +1,10 @@
 import request from 'supertest';
 import createAPIServer from '../createAPIServer';
+import initialUsers from "./initialUsers";
 
-const app = createAPIServer();
+const app = createAPIServer({
+    users: initialUsers,
+});
 
 describe('GET /api/users', () => {
     it('responds with json', done => {

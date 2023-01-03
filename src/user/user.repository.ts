@@ -13,8 +13,6 @@ class UserRepository implements Repository<User> {
     }
 
     async all(): Promise<User[]> {
-        // console.log(this.collection)
-        // console.log(this.db)
         return this.collection.all();
     }
 
@@ -23,17 +21,14 @@ class UserRepository implements Repository<User> {
     }
 
     async create(item: User): Promise<boolean> {
-        // this.db.updateCollection('users', this.users)
         return this.collection.insert(item);
     }
 
     async delete(id: string): Promise<boolean> {
-        // this.db.updateCollection('users', this.users)
         return this.collection.delete(id);
     }
 
     async update(id: string, item: User): Promise<boolean> {
-        // this.db.updateCollection('users', this.users)
         return this.collection.update(id, item);
     }
 }
