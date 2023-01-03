@@ -1,6 +1,6 @@
 import request from 'supertest';
 import createAPIServer from '../createAPIServer';
-import initialUsers from "./initialUsers";
+import initialUsers from "../initialUsers";
 
 const app = createAPIServer({
     users: initialUsers,

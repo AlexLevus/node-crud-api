@@ -1,12 +1,12 @@
 import os from 'node:os';
 import cluster from 'node:cluster';
+import type { Worker } from 'node:cluster';
 
 import { config } from 'dotenv';
 
 import createLoadBalancer from './createLoadBalancer';
-import initialUsers from './user/initialUsers';
 import createAPIServer from './createAPIServer';
-import { Worker } from 'cluster';
+import initialUsers from "./initialUsers";
 
 config();
 
