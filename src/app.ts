@@ -6,7 +6,6 @@ import { config } from 'dotenv';
 
 import createLoadBalancer from './createLoadBalancer';
 import createAPIServer from './createAPIServer';
-import initialUsers from "./initialUsers";
 
 config();
 
@@ -25,7 +24,7 @@ if (cluster.isPrimary) {
         const worker = cluster.fork({
             PORT: PORT + i + 1,
             INITIAL_DATA: JSON.stringify({
-                users: initialUsers,
+                users: []
             }),
         });
 

@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import UserService from './user.service';
 import User from './user.entity';
 import { validate as uuidValidate } from 'uuid';
+import errorMessages from "../shared/const/errorMessages";
 
 class UserController {
     private userService: UserService;
@@ -25,7 +26,7 @@ class UserController {
         try {
             if (!uuidValidate(id)) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Provided id is incorrect' }));
+                res.end(JSON.stringify({ message: errorMessages.incorrectId }));
             }
 
             const user = await this.userService.getUser(id);
@@ -34,34 +35,11 @@ class UserController {
                 res.end(JSON.stringify(user));
             } else {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'User with this id does not exist' }));
+                res.end(JSON.stringify({ message: errorMessages.entityWithIdNotExist('User') }));
             }
         } catch (error) {
             console.log(error);
         }
-    }
-
-    // TODO: вынести
-    validateUserRequiredFields(user: Partial<User>) {
-        const missedFields = [];
-
-        if (user.username === undefined) {
-            missedFields.push('username');
-        }
-
-        if (user.age === undefined) {
-            missedFields.push('age');
-        }
-
-        if (user.hobbies === undefined) {
-            missedFields.push('hobbies');
-        }
-
-        if (missedFields.length > 0) {
-            return `Required fields (${missedFields.join(', ')}) must be provided`;
-        }
-
-        return null;
     }
 
     async createUser(req: IncomingMessage, res: ServerResponse) {
@@ -77,8 +55,8 @@ class UserController {
                     parsedRawData = JSON.parse(rawData) as User;
                 } catch (error) {
                     console.log(error)
-                    res.writeHead(400);
-                    res.end();
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: errorMessages.incorrectJSON }));
                     return
                 }
 
@@ -108,7 +86,7 @@ class UserController {
         try {
             if (!uuidValidate(id)) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Provided id is incorrect' }));
+                res.end(JSON.stringify({ message: errorMessages.incorrectId }));
             }
 
             let rawData = '';
@@ -122,8 +100,8 @@ class UserController {
                     user = JSON.parse(rawData) as User;
                 } catch (error) {
                     console.log(error)
-                    res.writeHead(400);
-                    res.end();
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: errorMessages.incorrectJSON }));
                     return
                 }
 
@@ -134,7 +112,7 @@ class UserController {
                     res.end(JSON.stringify(user));
                 } else {
                     res.writeHead(404, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ message: 'User with this id does not exist' }));
+                    res.end(JSON.stringify({ message: errorMessages.entityWithIdNotExist('User') }));
                 }
             });
         } catch (error) {
@@ -146,7 +124,7 @@ class UserController {
         try {
             if (!uuidValidate(id)) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Provided id is incorrect' }));
+                res.end(JSON.stringify({ message: errorMessages.incorrectId }));
             }
 
             const isUserDeleted = await this.userService.deleteUser(id);
@@ -156,11 +134,33 @@ class UserController {
                 res.end();
             } else {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'User with this id does not exist' }));
+                res.end(JSON.stringify({ message: errorMessages.entityWithIdNotExist('User') }));
             }
         } catch (error) {
             console.log(error);
         }
+    }
+
+    private validateUserRequiredFields(user: Partial<User>) {
+        const missedFields = [];
+
+        if (user.username === undefined) {
+            missedFields.push('username');
+        }
+
+        if (user.age === undefined) {
+            missedFields.push('age');
+        }
+
+        if (user.hobbies === undefined) {
+            missedFields.push('hobbies');
+        }
+
+        if (missedFields.length > 0) {
+            return errorMessages.missingRequiredFields(missedFields);
+        }
+
+        return null;
     }
 }
 

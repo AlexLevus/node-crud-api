@@ -6,7 +6,6 @@
     "scripts": {
         "start:prod": "npm run build && node build/app.js",
         "start:dev": "npx nodemon",
-        "start:multi": "",
         "build": "rm -rf ./build && tsc",
         "test": "jest"
     },

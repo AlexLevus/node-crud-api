@@ -1,6 +1,7 @@
 import http from 'node:http';
 import { User, UserController } from './user';
 import InMemoryDB from './shared/db/InMemoryDB';
+import errorMessages from "./shared/const/errorMessages";
 
 interface InitialData {
     users: User[];
@@ -33,7 +34,7 @@ const createAPIServer = (initialData: InitialData) => {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
                 res.end(
                     JSON.stringify({
-                        message: 'This route does not exist',
+                        message: errorMessages.routeNotExist
                     })
                 );
             }
