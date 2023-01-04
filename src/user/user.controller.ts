@@ -72,7 +72,15 @@ class UserController {
             });
 
             req.on('end', async () => {
-                const parsedRawData = JSON.parse(rawData) as User;
+                let parsedRawData;
+                try {
+                    parsedRawData = JSON.parse(rawData) as User;
+                } catch (error) {
+                    console.log(error)
+                    res.writeHead(400);
+                    res.end();
+                    return
+                }
 
                 const user = new User(parsedRawData.username, parsedRawData.age, parsedRawData.hobbies);
                 const errorMessage = this.validateUserRequiredFields(user);
@@ -109,7 +117,16 @@ class UserController {
             });
 
             req.on('end', async () => {
-                const user = JSON.parse(rawData) as User;
+                let user;
+                try {
+                    user = JSON.parse(rawData) as User;
+                } catch (error) {
+                    console.log(error)
+                    res.writeHead(400);
+                    res.end();
+                    return
+                }
+
                 const isUserUpdated = await this.userService.updateUser(id, user);
 
                 if (isUserUpdated) {
