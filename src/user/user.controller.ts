@@ -34,7 +34,7 @@ class UserController {
                 res.end(JSON.stringify(user));
             } else {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'User with this id does not exit' }));
+                res.end(JSON.stringify({ message: 'User with this id does not exist' }));
             }
         } catch (error) {
             console.log(error);
@@ -86,10 +86,10 @@ class UserController {
                     );
                 }
 
-                const isUserCreated = await this.userService.createUser(user);
+                await this.userService.createUser(user);
 
                 res.writeHead(201, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(isUserCreated));
+                res.end(JSON.stringify(user));
             });
         } catch (error) {
             console.log(error);
@@ -114,10 +114,10 @@ class UserController {
 
                 if (isUserUpdated) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(isUserUpdated));
+                    res.end(JSON.stringify(user));
                 } else {
                     res.writeHead(404, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ message: 'User with this id does not exit' }));
+                    res.end(JSON.stringify({ message: 'User with this id does not exist' }));
                 }
             });
         } catch (error) {
@@ -135,11 +135,11 @@ class UserController {
             const isUserDeleted = await this.userService.deleteUser(id);
 
             if (isUserDeleted) {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(isUserDeleted));
+                res.writeHead(204);
+                res.end();
             } else {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'User with this id does not exit' }));
+                res.end(JSON.stringify({ message: 'User with this id does not exist' }));
             }
         } catch (error) {
             console.log(error);

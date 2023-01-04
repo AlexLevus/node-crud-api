@@ -94,7 +94,12 @@ Request example:
 
 Response example:
 ```json
-true
+{
+  "id": "6f8cbc02-8a8e-4368-83fe-e0fe6aa8c1db",
+  "username": "semen",
+  "age": 100,
+  "hobbies": ["drink", "eat"]
+}
 ```
 
 #### `/api/users/:id` (PUT):
@@ -109,13 +114,15 @@ Request example:
 
 Response example:
 ```json
-true
+{
+  "id": "6f8cbc02-8a8e-4368-83fe-e0fe6aa8c1db",
+  "username": "semen",
+  "age": 100,
+  "hobbies": ["drink", "eat"]
+}
 ```
 
-#### `/api/users/:id` (DELETE) - response example:
-```json
-true
-```
+#### `/api/users/:id` (DELETE) - 204:
 
 ## License
 
