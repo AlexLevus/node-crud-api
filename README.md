@@ -1,15 +1,20 @@
-# CRUD API
+# USER CRUD API
 
 ## Overview 🔍
-🌐 Web application to work with users. Designed with Node.js (http package) with horizontal scaling
-(starts multiple instances of application equal to the number of logical processor cores on the host machine with a load balancer that distributes requests across them using Round-robin algorithm.
+🌐 Web service to work with users. Designed with Node.js (http package). The service has horizontal scaling: starts multiple instances of application equal to the number of logical processor cores on the host machine with a load balancer that distributes requests across them using Round-robin algorithm.
 
 ## 🏗️ Install & Run🏃
+**Requirements:** Node.js 18.12.1
 
 Download or copy repository:
 
 ```bash
 git clone https://github.com/AlexLevus/node-crud-api.git
+```
+
+Install dependencies:
+```bash
+npm install
 ```
 
 Run service:
