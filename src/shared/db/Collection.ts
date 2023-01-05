@@ -5,16 +5,6 @@ class Collection<T extends { id: string }> {
         this.data = data;
     }
 
-    private sendIPCMessage() {
-        if (process.send) {
-            process.send(
-                JSON.stringify({
-                    users: this.data,
-                })
-            );
-        }
-    }
-
     async all(): Promise<T[]> {
         return Promise.resolve(this.data);
     }
@@ -62,6 +52,16 @@ class Collection<T extends { id: string }> {
         this.sendIPCMessage();
 
         return Promise.resolve(Boolean(item));
+    }
+
+    private sendIPCMessage() {
+        if (process.send) {
+            process.send(
+                JSON.stringify({
+                    users: this.data,
+                })
+            );
+        }
     }
 }
 
